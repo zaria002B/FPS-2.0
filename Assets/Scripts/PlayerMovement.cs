@@ -1,0 +1,38 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+public class NewMonoBehaviourScript : MonoBehaviour
+{
+    public float moveSpeed = 5f;
+    public float jumpForce = 5f;
+    public Transform groundCheck;
+    public float groundDistance = 0.4f;
+    public LayerMask groundMask;
+    private Rigidbody rb;
+    private Vector2 moveInput;
+    private bool isGrounded;
+    private PlayerInput playerInput;
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        playerInput = new PlayerInput();
+    }
+
+    void Update()
+    {
+        CheckGrounded();
+
+    }
+    void OnJump()
+    {
+        if (isGrounded)
+        {
+            rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+        }
+
+    }
+    void CheckGrounded()
+    {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+    }
+
+}
